@@ -1,16 +1,24 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category
 
 
 def home(request):
-    products = Product.objects.all()
     categories = Category.objects.all()
+    query = request.GET.get('q')
+    cart = request.session.get('cart', [])
+    cart_count = len(cart)
+
+    if query:
+        products = Product.objects.filter(name__icontains=query)
+    else:
+        products = Product.objects.all()
 
     return render(request, 'shop/home.html', {
         'products': products,
         'categories': categories,
-        'selected_category': None
-
+        'selected_category': None,
+        'query': query,
+        'cart_count': cart_count
     })
 
 
@@ -34,5 +42,15 @@ def category_products(request, category_id):
         'categories': categories,
         'selected_category': selected_category
     })
+
+def add_to_cart(request, product_id):
+    cart = request.session.get('cart', [])
+
+    if product_id not in cart:
+        cart.append(product_id)
+
+    request.session['cart'] = cart
+
+    return redirect('/')
 
 
