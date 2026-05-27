@@ -24,7 +24,9 @@
         <a class="btn btn-outline-light" href="#">
           <i class="bi-cart-fill me-1"></i>
           Cart
-          <span class="badge bg-light text-dark ms-1 rounded-pill">0</span>
+          <span class="badge bg-light text-dark ms-1 rounded-pill"
+            >{{ cart_count }}</span
+          >
         </a>
       </div>
     </nav>
@@ -46,7 +48,12 @@
 
           <p class="mt-4">{{ product.description }}</p>
 
-          <button class="btn btn-dark btn-lg">Add to Cart</button>
+          <a
+            href="{% url 'add_to_cart' product.id %}"
+            class="btn btn-dark btn-lg"
+          >
+            Add to Cart
+          </a>
         </div>
       </div>
     </div>
