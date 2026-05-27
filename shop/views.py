@@ -46,11 +46,23 @@ def category_products(request, category_id):
 def add_to_cart(request, product_id):
     cart = request.session.get('cart', [])
 
-    if product_id not in cart:
-        cart.append(product_id)
+    cart.append(product_id)
 
     request.session['cart'] = cart
 
     return redirect('/')
+
+def cart_page(request):
+    cart = request.session.get('cart', [])
+
+    products = Product.objects.filter(id__in=cart)
+
+    total = sum(product.price for product in products)
+
+    return render(request, 'shop/cart.html', {
+        'products': products,
+        'total': total,
+        'cart_count': len(cart),
+    })
 
 

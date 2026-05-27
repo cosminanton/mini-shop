@@ -1,55 +1,54 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ product.name }}</title>
 
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a class="navbar-brand" href="/"> Mini Shop </a>
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="/">
-            Mini Shop
+        <a class="btn btn-outline-light" href="#">
+          <i class="bi-cart-fill me-1"></i>
+          Cart
+          <span class="badge bg-light text-dark ms-1 rounded-pill">0</span>
         </a>
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<div class="container mt-5">
-
-    <div class="row">
-
+    <div class="container mt-5">
+      <div class="row">
         <div class="col-md-6">
-            <img src="{{ product.image_url }}"
-                 class="img-fluid rounded"
-                 alt="{{ product.name }}">
+          <img
+            src="{{ product.image_url }}"
+            class="img-fluid rounded"
+            alt="{{ product.name }}"
+          />
         </div>
 
         <div class="col-md-6">
+          <h1>{{ product.name }}</h1>
 
-            <h1>{{ product.name }}</h1>
+          <h3 class="text-success mt-3">${{ product.price }}</h3>
 
-            <h3 class="text-success mt-3">
-                ${{ product.price }}
-            </h3>
+          <p class="mt-4">{{ product.description }}</p>
 
-            <p class="mt-4">
-                {{ product.description }}
-            </p>
-
-            <button class="btn btn-dark btn-lg">
-                Add to Cart
-            </button>
-
+          <button class="btn btn-dark btn-lg">Add to Cart</button>
         </div>
-
+      </div>
     </div>
-
-</div>
-
-</body>
+  </body>
 </html>
