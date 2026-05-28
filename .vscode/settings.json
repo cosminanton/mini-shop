@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "ssh": "Disabled",
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Mini Shop DB",
+      "database": "minishop_db",
+      "username": "minishop_user"
+    }
+  ]
+}
