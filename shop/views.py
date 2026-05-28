@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Category
+from .models import Order, Product, Category
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 
@@ -141,9 +141,28 @@ def checkout_page(request):
     })
 
 def place_order(request):
+    cart = request.session.get('cart', {})
+
+    if not cart:
+        return redirect('cart_page')
+
+    products = Product.objects.filter(id__in=cart.keys())
+
+    total = 0
+    for product in products:
+        quantity = cart[str(product.id)]
+        total += product.price * quantity
+
+    order = Order.objects.create(
+        user=request.user if request.user.is_authenticated else None,
+        total_price=total
+    )
+
     request.session['cart'] = {}
 
-    return render(request, 'shop/order_confirmation.html')
+    return render(request, 'shop/order_confirmation.html', {
+        'order': order
+    })
 
 def register_page(request):
 
