@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Order, Product, Category
+from .models import Order, Product, Category, OrderItem
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 
 
 def get_cart_count(request):
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
 
     if isinstance(cart, list):
         return len(cart)
@@ -15,7 +15,7 @@ def get_cart_count(request):
 
 def home(request):
     categories = Category.objects.all()
-    query = request.GET.get('q')
+    query = request.GET.get("q")
     cart_count = get_cart_count(request)
 
     if query:
@@ -23,23 +23,28 @@ def home(request):
     else:
         products = Product.objects.all()
 
-    return render(request, 'shop/home.html', {
-        'products': products,
-        'categories': categories,
-        'selected_category': None,
-        'query': query,
-        'cart_count': cart_count
-    })
+    return render(
+        request,
+        "shop/home.html",
+        {
+            "products": products,
+            "categories": categories,
+            "selected_category": None,
+            "query": query,
+            "cart_count": cart_count,
+        },
+    )
 
 
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart_count = get_cart_count(request)
 
-    return render(request, 'shop/product_detail.html', {
-        'product': product,
-        'cart_count': cart_count
-    })
+    return render(
+        request,
+        "shop/product_detail.html",
+        {"product": product, "cart_count": cart_count},
+    )
 
 
 def category_products(request, category_id):
@@ -48,16 +53,20 @@ def category_products(request, category_id):
     products = Product.objects.filter(category=selected_category)
     cart_count = get_cart_count(request)
 
-    return render(request, 'shop/home.html', {
-        'products': products,
-        'categories': categories,
-        'selected_category': selected_category,
-        'cart_count': cart_count
-    })
+    return render(
+        request,
+        "shop/home.html",
+        {
+            "products": products,
+            "categories": categories,
+            "selected_category": selected_category,
+            "cart_count": cart_count,
+        },
+    )
 
 
 def add_to_cart(request, product_id):
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
 
     if isinstance(cart, list):
         cart = {}
@@ -65,13 +74,13 @@ def add_to_cart(request, product_id):
     product_id = str(product_id)
     cart[product_id] = cart.get(product_id, 0) + 1
 
-    request.session['cart'] = cart
+    request.session["cart"] = cart
 
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
 def decrease_cart_item(request, product_id):
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
 
     if isinstance(cart, list):
         cart = {}
@@ -84,13 +93,13 @@ def decrease_cart_item(request, product_id):
         if cart[product_id] <= 0:
             del cart[product_id]
 
-    request.session['cart'] = cart
+    request.session["cart"] = cart
 
-    return redirect('cart_page')
+    return redirect("cart_page")
 
 
 def remove_cart_item(request, product_id):
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
 
     if isinstance(cart, list):
         cart = {}
@@ -100,13 +109,13 @@ def remove_cart_item(request, product_id):
     if product_id in cart:
         del cart[product_id]
 
-    request.session['cart'] = cart
+    request.session["cart"] = cart
 
-    return redirect('cart_page')
+    return redirect("cart_page")
 
 
 def cart_page(request):
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
 
     if isinstance(cart, list):
         cart = {}
@@ -121,65 +130,81 @@ def cart_page(request):
         subtotal = product.price * quantity
         total += subtotal
 
-        cart_items.append({
-            'product': product,
-            'quantity': quantity,
-            'subtotal': subtotal
-        })
+        cart_items.append(
+            {"product": product, "quantity": quantity, "subtotal": subtotal}
+        )
 
-    return render(request, 'shop/cart.html', {
-        'cart_items': cart_items,
-        'total': total,
-        'cart_count': sum(cart.values())
-    })
+    return render(
+        request,
+        "shop/cart.html",
+        {"cart_items": cart_items, "total": total, "cart_count": sum(cart.values())},
+    )
+
 
 def checkout_page(request):
     cart_count = get_cart_count(request)
 
-    return render(request, 'shop/checkout.html', {
-        'cart_count': cart_count
-    })
+    return render(request, "shop/checkout.html", {"cart_count": cart_count})
+
 
 def place_order(request):
-    cart = request.session.get('cart', {})
+    cart = request.session.get("cart", {})
 
     if not cart:
-        return redirect('cart_page')
+        return redirect("cart_page")
 
     products = Product.objects.filter(id__in=cart.keys())
 
     total = 0
-    for product in products:
-        quantity = cart[str(product.id)]
-        total += product.price * quantity
 
     order = Order.objects.create(
-        user=request.user if request.user.is_authenticated else None,
-        total_price=total
+        user=request.user if request.user.is_authenticated else None, total_price=0
     )
 
-    request.session['cart'] = {}
+    for product in products:
+        quantity = cart[str(product.id)]
+        if product.stock < quantity:
+            return redirect("cart_page")
+        subtotal = product.price * quantity
+        total += subtotal
 
-    return render(request, 'shop/order_confirmation.html', {
-        'order': order
-    })
+        OrderItem.objects.create(
+            order=order, product=product, quantity=quantity, price=product.price
+        )
+        product.stock -= quantity
+        product.save()
+
+    order.total_price = total
+    order.save()
+
+    request.session["cart"] = {}
+
+    return render(request, "shop/order_confirmation.html", {"order": order})
+
 
 def register_page(request):
 
-    if request.method == 'POST':
+    if request.method == "POST":
 
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
+        username = request.POST["username"]
+        email = request.POST["email"]
+        password = request.POST["password"]
 
         user = User.objects.create_user(
-            username=username,
-            email=email,
-            password=password
+            username=username, email=email, password=password
         )
 
         login(request, user)
 
-        return redirect('/')
+        return redirect("/")
 
-    return render(request, 'shop/register.html')
+    return render(request, "shop/register.html")
+
+
+def my_orders(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    orders = Order.objects.filter(user=request.user).order_by("-created_at")
+
+    return render(request, "shop/my_orders.html", {"orders": orders})
