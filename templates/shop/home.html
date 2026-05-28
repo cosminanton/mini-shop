@@ -120,11 +120,13 @@
             <button class="btn btn-outline-dark" type="submit">Search</button>
           </form>
 
-          <button class="btn btn-outline-dark">
+          <a class="btn btn-outline-dark" href="{% url 'cart_page' %}">
             <i class="bi-cart-fill me-1"></i>
             Cart
-            <span class="badge bg-dark text-white ms-1 rounded-pill">{{ cart_count }}</span>
-          </button>
+            <span class="badge bg-dark text-white ms-1 rounded-pill"
+              >{{ cart_count }}</span
+            >
+          </a>
         </div>
       </div>
     </nav>

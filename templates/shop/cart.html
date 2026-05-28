@@ -180,10 +180,15 @@
               <h5 class="fw-bold">${{ total }}</h5>
             </div>
 
-            <button class="btn btn-dark w-100 mt-4 py-3">CHECKOUT</button>
-            <button class="btn btn-outline-dark w-100 mt-4 py-3">
+            <a
+              href="{% url 'checkout_page' %}"
+              class="btn btn-dark w-100 mt-4 py-3"
+            >
+              CHECKOUT
+            </a>
+            <a href="/" class="btn btn-outline-dark w-100 mt-4 py-3">
               Continue Shopping
-            </button>
+            </a>
           </div>
         </div>
       </div>

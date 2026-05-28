@@ -130,3 +130,9 @@ def cart_page(request):
         'total': total,
         'cart_count': sum(cart.values())
     })
+def checkout_page(request):
+    cart_count = get_cart_count(request)
+
+    return render(request, 'shop/checkout.html', {
+        'cart_count': cart_count
+    })
