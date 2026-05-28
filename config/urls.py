@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from shop.views import home, product_detail, category_products, add_to_cart, cart_page, decrease_cart_item, remove_cart_item, checkout_page, place_order
+from django.contrib.auth import views as auth_views
+from shop.views import home, product_detail, category_products, add_to_cart, cart_page, decrease_cart_item, remove_cart_item, checkout_page, place_order, register_page
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home),
@@ -28,4 +29,7 @@ urlpatterns = [
     path('cart/remove/<int:product_id>/', remove_cart_item, name='remove_cart_item'),
     path('checkout/', checkout_page, name='checkout_page'),
     path('place-order/', place_order, name='place_order'),
+    path('login/', auth_views.LoginView.as_view(template_name='shop/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('register/', register_page, name='register'),
 ]

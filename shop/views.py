@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Product, Category
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 
 def get_cart_count(request):
@@ -142,3 +144,23 @@ def place_order(request):
     request.session['cart'] = {}
 
     return render(request, 'shop/order_confirmation.html')
+
+def register_page(request):
+
+    if request.method == 'POST':
+
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        login(request, user)
+
+        return redirect('/')
+
+    return render(request, 'shop/register.html')
