@@ -155,13 +155,11 @@
 
           {% else %}
 
-          <a href="{% url 'login' %}" class="btn btn-outline-dark me-2">
+          <a href="{% url 'login' %}" class="btn btn-outline-dark ms-auto me-2">
             Login
           </a>
 
-          <a href="{% url 'register' %}" class="btn btn-dark me-3">
-            Register
-          </a>
+          <a href="{% url 'register' %}" class="btn btn-dark"> Register </a>
 
           {% endif %} {% if user.is_authenticated %}
 
