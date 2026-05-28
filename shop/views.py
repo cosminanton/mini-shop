@@ -136,3 +136,7 @@ def checkout_page(request):
     return render(request, 'shop/checkout.html', {
         'cart_count': cart_count
     })
+def place_order(request):
+    request.session['cart'] = {}
+
+    return render(request, 'shop/order_confirmation.html')
