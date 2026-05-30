@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Order, Product, Category, OrderItem
 from django.contrib.auth.models import User
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
 
 def get_cart_count(request):
@@ -141,12 +142,14 @@ def cart_page(request):
     )
 
 
+@login_required
 def checkout_page(request):
     cart_count = get_cart_count(request)
 
     return render(request, "shop/checkout.html", {"cart_count": cart_count})
 
 
+@login_required
 def place_order(request):
     cart = request.session.get("cart", {})
 
@@ -201,6 +204,7 @@ def register_page(request):
     return render(request, "shop/register.html")
 
 
+@login_required
 def my_orders(request):
     if not request.user.is_authenticated:
         return redirect("login")
