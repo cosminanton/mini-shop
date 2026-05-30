@@ -160,8 +160,22 @@ def place_order(request):
 
     total = 0
 
+    first_name = request.POST.get("first_name")
+    last_name = request.POST.get("last_name")
+    email = request.POST.get("email")
+    address = request.POST.get("address")
+    city = request.POST.get("city")
+    postal_code = request.POST.get("postal_code")
+
     order = Order.objects.create(
-        user=request.user if request.user.is_authenticated else None, total_price=0
+        user=request.user,
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        address=address,
+        city=city,
+        postal_code=postal_code,
+        total_price=0,
     )
 
     for product in products:
