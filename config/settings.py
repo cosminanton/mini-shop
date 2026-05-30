@@ -28,7 +28,11 @@ SECRET_KEY = "django-insecure-5l-@(5kml2uw7us4d%fn!1+g42g*hze$@d#(=k#vmg)+07b*rg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "cosminstore.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
