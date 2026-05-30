@@ -33,6 +33,8 @@ from shop.views import (
     register_page,
     my_orders,
 )
+from shop.views import debug_product
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -55,6 +57,8 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("register/", register_page, name="register"),
     path("my-orders/", my_orders, name="my_orders"),
+    path('debug/<int:pk>/', debug_product),
+
 ]
 
 if settings.DEBUG:

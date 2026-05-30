@@ -4,6 +4,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from urllib.parse import quote, unquote
+from django.http import JsonResponse
+from .models import Product
+
+def debug_product(request, pk):
+    p = Product.objects.get(id=pk)
+    return JsonResponse({
+        'image': str(p.image),
+        'image_url': p.image_url,
+    })
 
 
 def get_cart_count(request):
