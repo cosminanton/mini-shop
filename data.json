@@ -1,0 +1,275 @@
+[
+{
+  "model": "shop.category",
+  "pk": 3,
+  "fields": {
+    "name": "Electronics"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 4,
+  "fields": {
+    "name": "Fashion"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 5,
+  "fields": {
+    "name": "Accessories"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 6,
+  "fields": {
+    "name": "Digital Products"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 7,
+  "fields": {
+    "name": "Personal Care"
+  }
+},
+{
+  "model": "shop.category",
+  "pk": 8,
+  "fields": {
+    "name": "Sports"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 1,
+  "fields": {
+    "stock": 10,
+    "category": 3,
+    "name": "iPhone 117 SE",
+    "price": "699.00",
+    "description": "The most futuristic iPhone ever created.\r\nPowered by the new A29 Bionic Full HD chip.\r\n0,1% faster than iPhone 11.",
+    "image_url": "",
+    "image": "products/dennis-brendel-YLNMXzXk8zs-unsplash.jpg"
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 2,
+  "fields": {
+    "stock": 10,
+    "category": 7,
+    "name": "Lavazza",
+    "price": "2.49",
+    "description": "A rich Italian coffee experience designed to fuel your focus, boost creativity, and make your work more enjoyable.",
+    "image_url": "https://images.unsplash.com/photo-1484788984921-03950022c9ef?q=80&w=1532&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image": ""
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 3,
+  "fields": {
+    "stock": 9,
+    "category": 3,
+    "name": "Nokia 3310 Ultra Pro Max",
+    "price": "9999.00",
+    "description": "Survives drops, floods, and emotional damage.",
+    "image_url": "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthf.bing.com%2Fth%2Fid%2FOIP.mkaw-1rqRUfqRDmX4dQgMwHaFj%3Fr%3D0%26cb%3Dthfc1falcon%26pid%3DApi&f=1&ipt=e03584497af588496c206c936d7041ff3ed8e",
+    "image": ""
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 4,
+  "fields": {
+    "stock": 8,
+    "category": 7,
+    "name": "Colgate \"WOW So Sexy\" Edition",
+    "price": "15.00",
+    "description": "Classic white version currently out of stock.",
+    "image_url": "https://images.unsplash.com/photo-1542576324495-94ce0a2091e1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image": ""
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 6,
+  "fields": {
+    "stock": 10,
+    "category": 4,
+    "name": "Scarf Socks",
+    "price": "3.99",
+    "description": "Even if they get holes or start smelling from your shoes, you can still use them as a scarf during freezing winter days.",
+    "image_url": "https://images.unsplash.com/photo-1773385411245-a3def774aeaa?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image": ""
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 7,
+  "fields": {
+    "stock": 10,
+    "category": 5,
+    "name": "Anti-Nosferatu Necklace",
+    "price": "49.99",
+    "description": "Premium garlic trinket necklace for possessed people.",
+    "image_url": "https://images.unsplash.com/photo-1701684431307-b943ffce2e10?q=80&w=1020&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image": ""
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 8,
+  "fields": {
+    "stock": 10,
+    "category": 6,
+    "name": "FREE 4K Wallpaper",
+    "price": "0.00",
+    "description": "Download it for free! (more free stuff on unsplash.com)",
+    "image_url": "https://images.unsplash.com/photo-1563387852576-964bc31b73af?q=80&w=1207&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "image": ""
+  }
+},
+{
+  "model": "shop.product",
+  "pk": 9,
+  "fields": {
+    "stock": 10,
+    "category": 4,
+    "name": "Politehnica Timișoara 2025/26 Jersey",
+    "price": "30.00",
+    "description": "Only for 🤍💜⚽️ supporters!",
+    "image_url": "https://shop.sspolitehnica.ro/wp-content/uploads/2025/12/Tricou-de-joc-Politehnica-Timisoara-2025-2026-Copii.jpg",
+    "image": "products/Tricou-de-joc-Politehnica-Timisoara-2025-2026.webp"
+  }
+},
+{
+  "model": "shop.productimage",
+  "pk": 1,
+  "fields": {
+    "product": 9,
+    "image": "products/gallery/Tricou-de-joc-spate-Politehnica-Timisoara-2025-2026-1_VvJjLIz.webp"
+  }
+},
+{
+  "model": "shop.productimage",
+  "pk": 2,
+  "fields": {
+    "product": 9,
+    "image": "products/gallery/Tricou-de-joc-Politehnica-Timisoara-2025-2026_DMXqkwp.webp"
+  }
+},
+{
+  "model": "shop.productimage",
+  "pk": 3,
+  "fields": {
+    "product": 9,
+    "image": "products/gallery/Tricou-de-joc-Politehnica-Timisoara-deplasare-2025-2026.webp"
+  }
+},
+{
+  "model": "shop.productimage",
+  "pk": 4,
+  "fields": {
+    "product": 9,
+    "image": "products/gallery/Tricou-de-joc-Politehnica-Timisoara-deplasare-2025-2026-spate.webp"
+  }
+},
+{
+  "model": "shop.productimage",
+  "pk": 5,
+  "fields": {
+    "product": 1,
+    "image": "products/gallery/dennis-brendel-YLNMXzXk8zs-unsplash.jpg"
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 1,
+  "fields": {
+    "product": 9,
+    "size": "XS",
+    "color": "White/Purple",
+    "variant_type": "Stadium Jersey",
+    "stock": 10
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 2,
+  "fields": {
+    "product": 9,
+    "size": "S",
+    "color": "Black/Purple",
+    "variant_type": "Official Jersey",
+    "stock": 13
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 3,
+  "fields": {
+    "product": 9,
+    "size": "M",
+    "color": "",
+    "variant_type": "",
+    "stock": 5
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 4,
+  "fields": {
+    "product": 9,
+    "size": "L",
+    "color": "",
+    "variant_type": "",
+    "stock": 8
+  }
+},
+{
+  "model": "shop.productvariant",
+  "pk": 5,
+  "fields": {
+    "product": 9,
+    "size": "XXL",
+    "color": "",
+    "variant_type": "",
+    "stock": 0
+  }
+},
+{
+  "model": "shop.variantimage",
+  "pk": 1,
+  "fields": {
+    "variant": 1,
+    "image": "products/variants/Tricou-de-joc-spate-Politehnica-Timisoara-2025-2026-1.webp"
+  }
+},
+{
+  "model": "shop.variantimage",
+  "pk": 2,
+  "fields": {
+    "variant": 1,
+    "image": "products/variants/Tricou-de-joc-Politehnica-Timisoara-2025-2026.webp"
+  }
+},
+{
+  "model": "shop.variantimage",
+  "pk": 3,
+  "fields": {
+    "variant": 2,
+    "image": "products/variants/Tricou-de-joc-Politehnica-Timisoara-deplasare-2025-2026.webp"
+  }
+},
+{
+  "model": "shop.variantimage",
+  "pk": 4,
+  "fields": {
+    "variant": 2,
+    "image": "products/variants/Tricou-de-joc-Politehnica-Timisoara-deplasare-2025-2026-spate.webp"
+  }
+}
+]
