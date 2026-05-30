@@ -1,0 +1,27 @@
+[33md5fbe38[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Create superuser from environment variables
+[33mcd05288[m Reset admin password on deploy
+[33m4f90944[m Create admin user during deploy
+[33mf717cd7[m Fix static url
+[33m805809e[m Configure DB 2
+[33mb96054d[m Configure DB
+[33m88c350f[m Configure static files for Render
+[33m199ce65[m Add gunicorn
+[33mecdcb52[m Add product variants and image gallery
+[33m474d8d1[m Added image carrousel + product Variant
+[33md4d2177[m Minor Stuff 2
+[33m1b0eac3[m Minor Stuff
+[33m5db60b0[m Add footer on checkout page
+[33mb975568[m Buttons arrangement
+[33m29db13f[m Removed basket when user is not auth
+[33m8fa0a55[m Added orders page + functionality changes
+[33mbb074b8[m Add Order Model + My Orders Page
+[33m395f68e[m Add register page
+[33m9e91a8e[m Add order model
+[33mc15fc39[m Add order confirmation page
+[33ma53ea2d[m Add checkout page
+[33m8736431[m Improve shopping cart integration across product pages
+[33ma31d052[m Add quantity controls to the cart page
+[33mc9c389a[m Add shopping cart page
+[33m4387024[m Add product search and add to cart feature
+[33m1ca0fd7[m Add requirements file
+[33mc074b6e[m Initial Django ecommerce project
