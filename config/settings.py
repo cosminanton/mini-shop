@@ -51,9 +51,9 @@ INSTALLED_APPS = [
 ]
 
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.environ.get("Cosmin"),
-    "API_KEY": os.environ.get("745136647138988"),
-    "API_SECRET": os.environ.get("6VuIT78fE9zK3-esmc8vsQlyY78"),
+    "CLOUD_NAME": os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.environ.get("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.environ.get("CLOUDINARY_API_SECRET"),
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
