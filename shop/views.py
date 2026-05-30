@@ -3,6 +3,7 @@ from .models import Order, Product, Category, OrderItem
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from urllib.parse import quote, unquote
 
 
 def get_cart_count(request):
@@ -11,7 +12,15 @@ def get_cart_count(request):
     if isinstance(cart, list):
         return len(cart)
 
-    return sum(cart.values())
+    total = 0
+
+    for item in cart.values():
+        if isinstance(item, dict):
+            total += item.get("quantity", 0)
+        else:
+            total += item
+
+    return total
 
 
 def home(request):
@@ -40,11 +49,16 @@ def home(request):
 def product_detail(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     cart_count = get_cart_count(request)
+    
+    colors = product.variants.exclude(color="").values_list("color", flat=True).distinct()
+    sizes = product.variants.exclude(size="").values_list("size", flat=True).distinct()
+    types = product.variants.exclude(variant_type="").values_list("variant_type", flat=True).distinct()
+    
 
     return render(
         request,
         "shop/product_detail.html",
-        {"product": product, "cart_count": cart_count},
+        {"product": product, "cart_count": cart_count, "colors": colors, "sizes": sizes, "types": types},
     )
 
 
@@ -72,43 +86,55 @@ def add_to_cart(request, product_id):
     if isinstance(cart, list):
         cart = {}
 
-    product_id = str(product_id)
-    cart[product_id] = cart.get(product_id, 0) + 1
+    color = request.POST.get("color", "")
+    size = request.POST.get("size", "")
+    variant_type = request.POST.get("variant_type", "")
+
+    cart_key = f"{product_id}|{color}|{size}|{variant_type}"
+
+    cart[cart_key] = {
+        "product_id": product_id,
+        "quantity": cart.get(cart_key, {}).get("quantity", 0) + 1,
+        "color": color,
+        "size": size,
+        "variant_type": variant_type,
+    }
 
     request.session["cart"] = cart
 
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
-def decrease_cart_item(request, product_id):
+def decrease_cart_item(request, item_key):
+    item_key = unquote(item_key)
     cart = request.session.get("cart", {})
 
-    if isinstance(cart, list):
-        cart = {}
+    if item_key in cart:
+        if isinstance(cart[item_key], dict):
+            cart[item_key]["quantity"] -= 1
 
-    product_id = str(product_id)
+            if cart[item_key]["quantity"] <= 0:
+                del cart[item_key]
+        else:
+            cart[item_key] -= 1
 
-    if product_id in cart:
-        cart[product_id] -= 1
-
-        if cart[product_id] <= 0:
-            del cart[product_id]
+            if cart[item_key] <= 0:
+                del cart[item_key]
 
     request.session["cart"] = cart
 
     return redirect("cart_page")
 
 
-def remove_cart_item(request, product_id):
+def remove_cart_item(request, item_key):
+    item_key = unquote(item_key)
     cart = request.session.get("cart", {})
 
     if isinstance(cart, list):
         cart = {}
 
-    product_id = str(product_id)
-
-    if product_id in cart:
-        del cart[product_id]
+    if item_key in cart:
+        del cart[item_key]
 
     request.session["cart"] = cart
 
@@ -118,28 +144,31 @@ def remove_cart_item(request, product_id):
 def cart_page(request):
     cart = request.session.get("cart", {})
 
-    if isinstance(cart, list):
-        cart = {}
-
-    products = Product.objects.filter(id__in=cart.keys())
-
     cart_items = []
     total = 0
 
-    for product in products:
-        quantity = cart[str(product.id)]
+    for key, item in cart.items():
+        product = get_object_or_404(Product, id=item["product_id"])
+        quantity = item["quantity"]
         subtotal = product.price * quantity
         total += subtotal
 
-        cart_items.append(
-            {"product": product, "quantity": quantity, "subtotal": subtotal}
-        )
+        cart_items.append({
+            "key": key,
+            "url_key": quote(key, safe=""),
+            "product": product,
+            "quantity": quantity,
+            "subtotal": subtotal,
+            "color": item.get("color"),
+            "size": item.get("size"),
+            "variant_type": item.get("variant_type"),
+        })
 
-    return render(
-        request,
-        "shop/cart.html",
-        {"cart_items": cart_items, "total": total, "cart_count": sum(cart.values())},
-    )
+    return render(request, "shop/cart.html", {
+        "cart_items": cart_items,
+        "total": total,
+        "cart_count": sum(item["quantity"] for item in cart.values()),
+    })
 
 
 @login_required

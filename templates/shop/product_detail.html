@@ -1,39 +1,44 @@
 {% load static %}
 <!doctype html>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ product.name }}</title>
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
       rel="stylesheet"
     />
+
     <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
   </head>
+
   <body>
     <nav class="navbar navbar-dark bg-dark">
       <div class="container d-flex justify-content-between align-items-center">
-        <a class="navbar-brand" href="/"> Mini Shop </a>
+        <a class="navbar-brand" href="/">Mini Shop</a>
 
+        {% if user.is_authenticated %}
         <a class="btn btn-outline-light" href="{% url 'cart_page' %}">
           <i class="bi-cart-fill me-1"></i>
           Cart
-          <span class="badge bg-light text-dark ms-1 rounded-pill"
-            >{{ cart_count }}</span
-          >
+          <span class="badge bg-light text-dark ms-1 rounded-pill">
+            {{ cart_count }}
+          </span>
         </a>
+        {% endif %}
       </div>
     </nav>
 
     <div class="container mt-5">
-      <div class="row">
-        <div class="col-md-6">
+      <div class="row align-items-start">
+        <div class="col-12 col-md-6 mb-4">
           <div id="productCarousel" class="carousel slide">
             <div class="carousel-inner">
               {% if product.image %}
@@ -52,7 +57,9 @@
                   alt="{{ product.name }}"
                 />
               </div>
-              {% endif %} {% for image in product.images.all %}
+              {% endif %}
+
+              {% for image in product.images.all %}
               <div
                 class="carousel-item {% if not product.image and not product.image_url and forloop.first %}active{% endif %}"
               >
@@ -85,24 +92,117 @@
           </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-12 col-md-6">
           <h1>{{ product.name }}</h1>
 
           <h3 class="text-success mt-3">${{ product.price }}</h3>
 
           <p class="mt-4">{{ product.description }}</p>
 
-          <a
-            href="{% url 'add_to_cart' product.id %}"
-            class="btn btn-dark btn-lg"
-          >
-            Add to Cart
-          </a>
-          <a href="{% url 'checkout_page' %}" class="btn btn-dark btn-lg ms-4">
-            CHECKOUT
-          </a>
+          {% if colors or sizes or types %}
+          <div class="row mb-4">
+            {% if colors %}
+            <div class="col-12 col-md-4 mb-3">
+              <label class="form-label fw-bold">Color</label>
+              <select class="form-select" name="color" id="colorSelect">
+                {% for color in colors %}
+                <option value="{{ color }}">{{ color }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+
+            {% if sizes %}
+            <div class="col-12 col-md-4 mb-3">
+              <label class="form-label fw-bold">Size</label>
+              <select class="form-select" name="size" id="sizeSelect">
+                {% for size in sizes %}
+                <option value="{{ size }}">{{ size }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+
+            {% if types %}
+            <div class="col-12 col-md-4 mb-3">
+              <label class="form-label fw-bold">Type</label>
+              <select
+                class="form-select"
+                name="variant_type"
+                id="typeSelect"
+              >
+                {% for type in types %}
+                <option value="{{ type }}">{{ type }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+
+          <div class="d-flex gap-3 flex-wrap">
+            <form
+              method="post"
+              action="{% url 'add_to_cart' product.id %}"
+              class="d-inline"
+            >
+              {% csrf_token %}
+
+              <input type="hidden" name="color" id="selectedColor" />
+              <input type="hidden" name="size" id="selectedSize" />
+              <input type="hidden" name="variant_type" id="selectedType" />
+
+              <button type="submit" class="btn btn-dark btn-lg">
+                Add to Cart
+              </button>
+            </form>
+
+            <a href="{% url 'checkout_page' %}" class="btn btn-dark btn-lg">
+              CHECKOUT
+            </a>
+          </div>
         </div>
       </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      const colorSelect = document.getElementById("colorSelect");
+      const sizeSelect = document.getElementById("sizeSelect");
+      const typeSelect = document.getElementById("typeSelect");
+
+      const selectedColor = document.getElementById("selectedColor");
+      const selectedSize = document.getElementById("selectedSize");
+      const selectedType = document.getElementById("selectedType");
+
+      function updateSelectedVariant() {
+        if (colorSelect && selectedColor) {
+          selectedColor.value = colorSelect.value;
+        }
+
+        if (sizeSelect && selectedSize) {
+          selectedSize.value = sizeSelect.value;
+        }
+
+        if (typeSelect && selectedType) {
+          selectedType.value = typeSelect.value;
+        }
+      }
+
+      updateSelectedVariant();
+
+      if (colorSelect) {
+        colorSelect.addEventListener("change", updateSelectedVariant);
+      }
+
+      if (sizeSelect) {
+        sizeSelect.addEventListener("change", updateSelectedVariant);
+      }
+
+      if (typeSelect) {
+        typeSelect.addEventListener("change", updateSelectedVariant);
+      }
+    </script>
   </body>
 </html>

@@ -42,9 +42,9 @@ urlpatterns = [
     path("add-to-cart/<int:product_id>/", add_to_cart, name="add_to_cart"),
     path("cart/", cart_page, name="cart_page"),
     path(
-        "cart/decrease/<int:product_id>/", decrease_cart_item, name="decrease_cart_item"
+        "cart/decrease/<str:item_key>/", decrease_cart_item, name="decrease_cart_item"
     ),
-    path("cart/remove/<int:product_id>/", remove_cart_item, name="remove_cart_item"),
+    path("cart/remove/<str:item_key>/", remove_cart_item, name="remove_cart_item"),
     path("checkout/", checkout_page, name="checkout_page"),
     path("place-order/", place_order, name="place_order"),
     path(

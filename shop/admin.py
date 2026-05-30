@@ -1,10 +1,32 @@
 from django.contrib import admin
-from .models import Product, Category, Order, OrderItem, ProductImage
+from .models import (
+    Product,
+    Category,
+    Order,
+    OrderItem,
+    ProductImage,
+    ProductVariant,
+    VariantImage,
+)
 
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 1
+
+
+class ProductVariantInline(admin.TabularInline):
+    model = ProductVariant
+    extra = 1
+
+
+class VariantImageInline(admin.TabularInline):
+    model = VariantImage
+    extra = 1
+
+
+class ProductVariantAdmin(admin.ModelAdmin):
+    inlines = [VariantImageInline]
 
 
 class OrderItemInline(admin.TabularInline):
@@ -13,7 +35,7 @@ class OrderItemInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [ProductImageInline]
+    inlines = [ProductVariantInline, ProductImageInline]
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -42,3 +64,5 @@ admin.site.register(Category)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem)
 admin.site.register(ProductImage)
+admin.site.register(ProductVariant, ProductVariantAdmin)
+admin.site.register(VariantImage)
