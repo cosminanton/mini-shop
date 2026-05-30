@@ -46,7 +46,15 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "cloudinary_storage",
+    "cloudinary",
 ]
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.environ.get("Cosmin"),
+    "API_KEY": os.environ.get("745136647138988"),
+    "API_SECRET": os.environ.get("6VuIT78fE9zK3-esmc8vsQlyY78"),
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
