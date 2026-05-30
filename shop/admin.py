@@ -1,10 +1,19 @@
 from django.contrib import admin
-from .models import Product, Category, Order, OrderItem
+from .models import Product, Category, Order, OrderItem, ProductImage
+
+
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    extra = 1
 
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 0
+
+
+class ProductAdmin(admin.ModelAdmin):
+    inlines = [ProductImageInline]
 
 
 class OrderAdmin(admin.ModelAdmin):
@@ -28,8 +37,8 @@ class OrderAdmin(admin.ModelAdmin):
     )
 
 
-# Register your models here.
-admin.site.register(Product)
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(OrderItem)
+admin.site.register(ProductImage)

@@ -195,7 +195,13 @@
           {% for product in products %}
           <div class="col mb-5">
             <div class="card h-100 d-flex flex-column">
-              {% if product.image_url %}
+              {% if product.image %}
+              <img
+                class="card-img-top product-image"
+                src="{{ product.image.url }}"
+                alt="{{ product.name }}"
+              />
+              {% elif product.image_url %}
               <img
                 class="card-img-top product-image"
                 src="{{ product.image_url }}"
@@ -203,7 +209,7 @@
               />
               {% else %}
               <img
-                class="card-img-top"
+                class="card-img-top product-image"
                 src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg"
                 alt="{{ product.name }}"
               />

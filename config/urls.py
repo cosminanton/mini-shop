@@ -56,3 +56,6 @@ urlpatterns = [
     path("register/", register_page, name="register"),
     path("my-orders/", my_orders, name="my_orders"),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -48,3 +48,36 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity}"
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="images"
+    )
+    image = models.ImageField(upload_to="products/gallery/")
+
+    def __str__(self):
+        return self.product.name
+
+
+class ProductVariant(models.Model):
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="variants"
+    )
+    size = models.CharField(max_length=50, blank=True)
+    color = models.CharField(max_length=50, blank=True)
+    variant_type = models.CharField(max_length=100, blank=True)
+    stock = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.color} {self.size} {self.variant_type}"
+
+
+class VariantImage(models.Model):
+    variant = models.ForeignKey(
+        ProductVariant, on_delete=models.CASCADE, related_name="images"
+    )
+    image = models.ImageField(upload_to="products/variants/")
+
+    def __str__(self):
+        return str(self.variant)
